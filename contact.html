@@ -50,10 +50,39 @@
         .nav-links a { color: #fff; text-decoration: none; text-transform: uppercase; letter-spacing: 0.15em; font-size: 0.85rem; font-weight: 300; transition: color 0.3s ease, opacity 0.3s ease; }
         .nav-links a:hover { opacity: 0.6; }
 
+        /* --- Mobile Menu Toggle (Hamburger) --- */
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .mobile-menu-toggle span {
+            width: 25px;
+            height: 2px;
+            background-color: #fff;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+        .mobile-menu-toggle.active span:nth-child(2) { opacity: 0; }
+        .mobile-menu-toggle.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+        /* --- Mobile Optimization & Slide-out Menu --- */
         @media (max-width: 900px) {
             .main-nav { padding: 1.2rem 5%; }
-            .nav-brand-logo { height: 40px; }
-            .nav-links { display: none; }
+            .nav-brand-logo { height: 40px; flex-shrink: 0; }
+            .mobile-menu-toggle { display: flex; }
+            .nav-links { 
+                position: fixed; top: 0; right: -100%; width: 70%; max-width: 300px; height: 100vh;
+                background: #050505; flex-direction: column; padding-top: 6rem; padding-left: 2rem;
+                gap: 2rem; transition: right 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+                box-shadow: -10px 0 30px rgba(0,0,0,0.8);
+            }
+            .nav-links.active { right: 0; }
+            .nav-links a { font-size: 1.2rem; }
         }
 
         .contact-layout { display: flex; min-height: 100vh; }
@@ -92,6 +121,13 @@
         <a href="index.html" class="nav-brand">
             <img src="assets/9wcnA2qNaQj3hspuRrLkS4.png" alt="House of Tayo Logo" class="nav-brand-logo">
         </a>
+        
+        <div class="mobile-menu-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
         <div class="nav-links">
             <a href="tayo.html">Collection</a>
             <a href="our-story.html">Our Story</a>
@@ -135,6 +171,17 @@
     </div>
 
     <script>
+        // Mobile Hamburger Menu Logic
+        const mobileToggle = document.querySelector('.mobile-menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+
+        if (mobileToggle) {
+            mobileToggle.addEventListener('click', () => {
+                mobileToggle.classList.toggle('active');
+                navLinks.classList.toggle('active');
+            });
+        }
+
         // Glassmorphism Nav Scroll Effect
         window.addEventListener('scroll', () => {
             const nav = document.querySelector('.main-nav');
