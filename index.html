@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>House of Tayo - Official</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- Reset and Base Styles --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #050505; 
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* --- Premium Navigation & Logo --- */
+        .main-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            transition: background 0.4s ease, backdrop-filter 0.4s ease, padding 0.4s ease;
+        }
+
+        .main-nav.scrolled {
+            background: rgba(5, 5, 5, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 1rem 5%;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-brand-logo {
+            height: 55px; /* Desktop size */
+            width: auto;
+            filter: invert(1) brightness(2) contrast(1.2); /* Inverts black to white */
+            mix-blend-mode: screen; 
+            transform-origin: left center;
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.5s ease;
+            will-change: transform;
+        }
+
+        .nav-brand:hover .nav-brand-logo {
+            transform: scale(1.05);
+            filter: invert(1) brightness(2) contrast(1.2) drop-shadow(0 0 10px rgba(255,255,255,0.3));
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-size: 0.85rem;
+            font-weight: 300;
+            transition: color 0.3s ease, opacity 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.6;
+        }
+
+        @media (max-width: 900px) {
+            .main-nav { 
+                padding: 1.2rem 5%; 
+            }
+            .nav-brand-logo { 
+                height: 40px; /* Optimized for mobile */
+            }
+            .nav-links { 
+                display: none; 
+            }
+        }
+
+        /* --- Hero Section --- */
+        .hero-section {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .hero-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translateX(-50%) translateY(-50%);
+            object-fit: cover;
+            opacity: 0.7;
+            z-index: 1;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(5,5,5,1));
+            z-index: 2;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            padding: 0 24px;
+            max-width: 800px;
+        }
+
+        .brand-title {
+            font-size: clamp(3rem, 6vw, 6rem);
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .brand-subtitle {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            font-weight: 300;
+            letter-spacing: 0.05em;
+            line-height: 1.6;
+            margin-bottom: 2.5rem;
+            color: #ccc;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 3rem;
+            border: 1px solid #fff;
+            color: #fff;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-size: 0.9rem;
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            background-color: #fff;
+            color: #000;
+        }
+
+        /* --- Lookbook / 3D Parallax Grid Section --- */
+        .lookbook-section {
+            padding: 8rem 5%;
+            background-color: #050505;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 400;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            perspective: 1500px; 
+        }
+
+        .grid-item {
+            position: relative;
+            cursor: pointer;
+            border-radius: 4px;
+            transform-style: preserve-3d;
+            will-change: transform;
+        }
+
+        .grid-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+            border-radius: 4px;
+            transform-style: preserve-3d;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .grid-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transform: scale(1.05); 
+            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            will-change: transform;
+        }
+
+        .item-1 { grid-column: span 7; grid-row: span 2; height: 700px; }
+        .item-2 { grid-column: span 5; height: 340px; }
+        .item-3 { grid-column: span 5; height: 340px; }
+        .item-4 { grid-column: span 12; height: 600px; margin-top: 20px;}
+
+        @media (max-width: 900px) {
+            .item-1, .item-2, .item-3, .item-4 {
+                grid-column: span 12;
+                height: 400px;
+            }
+        }
+
+        .item-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+            transform: translateZ(60px); 
+        }
+
+        .item-text {
+            color: #fff;
+            font-size: 1.2rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            transform: translateY(20px);
+            transition: transform 0.4s ease;
+        }
+
+        .grid-item:hover .item-overlay { opacity: 1; }
+        .grid-item:hover .item-text { transform: translateY(0); }
+
+        /* --- Heritage & Atelier Section --- */
+        .heritage-section {
+            padding: 8rem 5%;
+            background-color: #0a0a0a; 
+        }
+
+        .heritage-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8rem; 
+        }
+
+        .heritage-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 4rem;
+        }
+
+        .heritage-row.reverse {
+            flex-direction: row-reverse;
+        }
+
+        .heritage-text {
+            flex: 1;
+            max-width: 500px;
+        }
+
+        .heritage-text .section-title {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .heritage-text p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #b3b3b3;
+            margin-bottom: 2.5rem;
+            font-weight: 300;
+        }
+
+        .text-link {
+            color: #fff;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-size: 0.85rem;
+            border-bottom: 1px solid #fff;
+            padding-bottom: 6px;
+            transition: opacity 0.3s ease;
+        }
+
+        .text-link:hover { opacity: 0.6; }
+
+        .heritage-image {
+            flex: 1;
+            position: relative;
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
+        .heritage-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+            aspect-ratio: 4/3;
+            transition: transform 1s ease;
+        }
+
+        .heritage-image:hover img { transform: scale(1.03); }
+
+        @media (max-width: 900px) {
+            .heritage-row, .heritage-row.reverse {
+                flex-direction: column;
+                text-align: center;
+                gap: 3rem;
+            }
+            .heritage-text .section-title { text-align: center; }
+            .heritage-container { gap: 5rem; }
+        }
+
+        /* --- Lifestyle Video Section --- */
+        .lifestyle-section {
+            position: relative;
+            width: 100%;
+            height: 80vh; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background-color: #000;
+        }
+
+        .lifestyle-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translateX(-50%) translateY(-50%);
+            object-fit: cover;
+            opacity: 0.6;
+            z-index: 1;
+            filter: grayscale(30%);
+        }
+
+        .lifestyle-content {
+            position: relative;
+            z-index: 3;
+            text-align: center;
+            padding: 0 24px;
+        }
+
+        .lifestyle-title {
+            font-size: clamp(2rem, 4vw, 4rem);
+            font-weight: 400;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        /* --- Footer --- */
+        .site-footer {
+            background-color: #000;
+            padding: 5rem 5% 2rem;
+            border-top: 1px solid #1a1a1a;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            margin-bottom: 4rem;
+        }
+
+        .footer-col h4 {
+            font-size: 0.9rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-col ul li a, .footer-col p {
+            color: #808080;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 300;
+            transition: color 0.3s ease;
+            line-height: 1.6;
+        }
+
+        .footer-col ul li a:hover {
+            color: #fff;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #1a1a1a;
+            color: #4d4d4d;
+            font-size: 0.8rem;
+            letter-spacing: 0.05em;
+        }
+
+        /* --- Animation Classes --- */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 1s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                        transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .delay-1 { transition-delay: 0.2s; }
+        .delay-2 { transition-delay: 0.4s; }
+        .delay-3 { transition-delay: 0.6s; }
+
+    </style>
+</head>
+<body>
+
+    <nav class="main-nav fade-up">
+        <a href="index.html" class="nav-brand">
+            <img src="assets/9wcnA2qNaQj3hspuRrLkS4.png" alt="House of Tayo Logo" class="nav-brand-logo">
+        </a>
+        <div class="nav-links">
+            <a href="tayo.html">Collection</a>
+            <a href="our-story.html">Our Story</a>
+            <a href="press.html">Press</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </nav>
+
+    <section class="hero-section">
+        <video autoplay loop muted playsinline class="hero-video">
+            <source src="assets/Command_the_Global_Stage__version_1.mp4" type="video/mp4">
+        </video>
+        <div class="hero-overlay"></div>
+        
+        <div class="hero-content">
+            <h1 class="brand-title fade-up delay-1">House of Tayo</h1>
+            <p class="brand-subtitle fade-up delay-2">Command the Global Stage. Luxury pieces designed to lead with confidence and identity.</p>
+            <a href="tayo.html" class="cta-button fade-up delay-3">Explore the Collection</a>
+        </div>
+    </section>
+
+    <section id="collection" class="lookbook-section">
+        <div class="section-header fade-up">
+            <h2 class="section-title">Latest Arrivals</h2>
+        </div>
+
+        <div class="grid-container">
+            <div class="grid-item item-1 fade-up delay-1" onclick="window.location.href='tayo.html';">
+                <div class="grid-inner">
+                    <img src="assets/bwPr-U416S2ekbIOPMD41P.png" alt="Rwanda Chevron Shirts">
+                    <div class="item-overlay"><span class="item-text">The Chevron Collection</span></div>
+                </div>
+            </div>
+            <div class="grid-item item-2 fade-up delay-2" onclick="window.location.href='tayo.html';">
+                <div class="grid-inner">
+                    <img src="assets/bRKvv9aBCUj1ybR688i_PL.png" alt="Teal Tunic">
+                    <div class="item-overlay"><span class="item-text">Teal Heritage Tunic</span></div>
+                </div>
+            </div>
+            <div class="grid-item item-3 fade-up delay-3" onclick="window.location.href='tayo.html';">
+                <div class="grid-inner">
+                    <img src="assets/at0myvlfMGv5QFq46P1OdC.png" alt="Boy in Bowtie">
+                    <div class="item-overlay"><span class="item-text">Signature Accessories</span></div>
+                </div>
+            </div>
+            <div class="grid-item item-4 fade-up delay-1" onclick="window.location.href='tayo.html';">
+                <div class="grid-inner">
+                    <img src="assets/ac1GQibmuhAaohN2Lwwk03.png" alt="Patchwork Top">
+                    <div class="item-overlay"><span class="item-text">Artisan Patchwork</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="heritage" class="heritage-section">
+        <div class="heritage-container">
+            
+            <div class="heritage-row">
+                <div class="heritage-text fade-up delay-1">
+                    <h2 class="section-title">Born in Kigali</h2>
+                    <p>House of Tayo was created out of the desire to find a unique way to showcase African sophistication, style, and flavor through contemporary, locally-made clothing and accessories. We blend traditional African heritage with modern, global design.</p>
+                    <a href="contact.html" class="text-link">Visit Our Flagship &#8594;</a>
+                </div>
+                <div class="heritage-image fade-up delay-2">
+                    <img src="assets/8fL89cCzSCzd62mSANDkM-.png" alt="House of Tayo Flagship Store">
+                </div>
+            </div>
+
+            <div class="heritage-row reverse">
+                <div class="heritage-text fade-up delay-1">
+                    <h2 class="section-title">The Atelier</h2>
+                    <p>Every thread has its tailor. We work directly with local artisans, producing everything in-house. By celebrating the incredible craftsmanship found right here at home, we ensure premium quality while providing stable, empowering opportunities for our community.</p>
+                    <a href="our-story.html" class="text-link">Our Philosophy &#8594;</a>
+                </div>
+                <div class="heritage-image fade-up delay-2">
+                    <img src="assets/bdOXA-I6mo75BNcFcaHkBn.png" alt="House of Tayo Artisan at Work">
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="lifestyle-section">
+        <video autoplay loop muted playsinline class="lifestyle-video">
+            <source src="assets/Elevated_Holiday_Style_version_1.mp4" type="video/mp4">
+        </video>
+        <div class="hero-overlay" style="background: rgba(0,0,0,0.5);"></div>
+        
+        <div class="lifestyle-content fade-up">
+            <h2 class="lifestyle-title">Elevated Style</h2>
+            <p class="brand-subtitle" style="color: #fff;">Artisanal sophistication for life's most meaningful moments.</p>
+            <a href="contact.html" class="cta-button">Book a Fitting</a>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        <div class="footer-grid fade-up">
+            <div class="footer-col">
+                <h4>Shop</h4>
+                <ul>
+                    <li><a href="tayo.html">New Arrivals</a></li>
+                    <li><a href="tayo.html">Menswear</a></li>
+                    <li><a href="tayo.html">Accessories</a></li>
+                    <li><a href="contact.html">Gift Cards</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Brand</h4>
+                <ul>
+                    <li><a href="our-story.html">Our Story</a></li>
+                    <li><a href="our-story.html">The Atelier</a></li>
+                    <li><a href="press.html">Press</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Visit Us</h4>
+                <p>KG 9 Ave,<br>Kigali, Rwanda</p>
+                <p style="margin-top: 1rem;">Mon - Fri: 9:00 - 18:30<br>Sat: 9:00 - 18:00<br>Sun: Closed</p>
+            </div>
+            <div class="footer-col">
+                <h4>Connect</h4>
+                <p>+250 784 058 996<br>info@houseoftayo.com</p>
+                <div style="margin-top: 1rem;">
+                    <ul>
+                        <li><a href="press.html">Instagram</a></li>
+                        <li><a href="press.html">Twitter / X</a></li>
+                        <li><a href="press.html">Facebook</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 House of Tayo. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Glassmorphism Nav Scroll Effect
+            window.addEventListener('scroll', () => {
+                const nav = document.querySelector('.main-nav');
+                if (window.scrollY > 50) {
+                    nav.classList.add('scrolled');
+                } else {
+                    nav.classList.remove('scrolled');
+                }
+            });
+
+            // Intersection Observer Logic for Fade Ups
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15 
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target); 
+                    }
+                });
+            }, observerOptions);
+
+            const animatedElements = document.querySelectorAll('.fade-up');
+            animatedElements.forEach(el => observer.observe(el));
+            
+            setTimeout(() => {
+                const navElements = document.querySelectorAll('.main-nav.fade-up');
+                navElements.forEach(el => el.classList.add('visible'));
+
+                const heroElements = document.querySelectorAll('.hero-content .fade-up');
+                heroElements.forEach(el => el.classList.add('visible'));
+            }, 100);
+
+            // Multi-Layer 3D Card Hover Effect (Juice Parallax Style)
+            document.querySelectorAll('.grid-item').forEach(card => {
+                const inner = card.querySelector('.grid-inner');
+                const img = card.querySelector('img');
+                
+                card.addEventListener('mousemove', e => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    // Calculate card rotation
+                    const rotateX = ((y - rect.height / 2) / (rect.height / 2)) * -12; 
+                    const rotateY = ((x - rect.width / 2) / (rect.width / 2)) * 12;
+                    
+                    // Calculate opposite image shift for parallax depth
+                    const imgShiftX = ((x - rect.width / 2) / (rect.width / 2)) * -20;
+                    const imgShiftY = ((y - rect.height / 2) / (rect.height / 2)) * -20;
+                    
+                    // Apply rotation to the whole card
+                    card.style.transform = `perspective(1500px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+                    
+                    // Scale up and shift the image in the opposite direction
+                    if(img) {
+                        img.style.transform = `scale(1.15) translate3d(${imgShiftX}px, ${imgShiftY}px, 0)`;
+                        img.style.transition = 'none'; // Instant follow on mouse move
+                    }
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    // Smooth snap back to original positions
+                    card.style.transform = `perspective(1500px) rotateX(0deg) rotateY(0deg)`;
+                    card.style.transition = 'transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                    
+                    if(img) {
+                        img.style.transform = `scale(1.05) translate3d(0, 0, 0)`;
+                        img.style.transition = 'transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                    }
+                    
+                    setTimeout(() => {
+                        card.style.transition = ''; // clear transition
+                    }, 600);
+                });
+                
+                card.addEventListener('mouseenter', () => {
+                    card.style.transition = 'transform 0.1s';
+                    if(img) img.style.transition = 'transform 0.1s';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
